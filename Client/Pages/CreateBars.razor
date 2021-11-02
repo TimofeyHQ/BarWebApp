@@ -1,0 +1,146 @@
+﻿@page "/createbars"
+@using BarWebApp.Shared
+@using BarWebApp.Client.Shared
+
+<h2>Create your Bar System</h2>
+
+<br />
+<br />
+
+<div>
+    <p>Left border<input type="checkbox" @bind-value="bufferLeftBorder" /></p>
+    <p>Right border<input type="checkbox" @bind-value="bufferRightBorder" /></p>
+    <button class="btn btn-primary" @onclick="@OnSetBordersButtonClicked">Set Borders</button>
+</div>
+
+<br />
+
+<div>
+    <p>Bar length:<input @bind-value="bufferLength" /></p>
+    <br />
+    <p>Bar Area:<input @bind-value="bufferArea" /></p>
+    <br />
+    <p>Bar material:<input @bind-value="bufferMaterial" /></p>
+    <br />
+    <button class="btn btn-primary" @onclick="@OnAddBarButtonClicked">Add Bar</button> <button class="btn btn-primary" @onclick="OnRemoveBarButtonClicked">Remove Bar</button>
+</div>
+
+<br />
+
+<div>
+    <p>Number of bar:<input @bind-value="numberOfBar" /></p>
+    <p>Force:<input @bind-value="force" /></p>
+    <p>Moment:<input @bind-value="moment" /></p>
+    <br />
+    <button class="btn btn-primary" @onclick="@OnAddCForceButtonClicked">Add Concentrated Force</button> <button class="btn btn-primary" @onclick="OnRemoveCForceButtonClicked">Remove Concentrated Force</button>
+    <br />
+    <br />
+    <p>Number of node:<input @bind-value="numberOfNode" /></p>
+    <p>Distributed force:<input @bind-value="distributed" /></p>
+    <br />
+    <button class="btn btn-primary" @onclick="@OnAddDForceButtonClicked">Add Distributed Force</button> <button class="btn btn-primary" @onclick="OnRemoveDForceButtonClicked">Remove Distributed Force</button>
+</div>
+
+<br/>
+<br/>
+
+<p>Result: <input @bind-value="temporaryOutput" vaborder="0" readonly="readonly" /></p>
+
+<br/>
+
+
+@code {
+    private decimal bufferLength;
+    private decimal bufferArea;
+    private decimal bufferMaterial;
+    private bool bufferLeftBorder = false;
+    private bool bufferRightBorder = false;
+
+    private int numberOfBar;
+    private int numberOfNode;
+    private decimal force;
+    private decimal moment;
+    private decimal distributed;
+
+    private string temporaryOutput;
+
+    private BarSystem clientBarSystem = new();
+
+    private void OnSetBordersButtonClicked()
+    {
+        bool isInputCorrect = (bufferLeftBorder || bufferRightBorder);
+        if (isInputCorrect)
+        {
+            clientBarSystem.HasRightBorder = bufferRightBorder;
+            clientBarSystem.HasLeftBorder = bufferLeftBorder;
+            temporaryOutput = clientBarSystem.ToString();
+        }
+        else
+            temporaryOutput = "Incorrect input. Please, make sure you have no mistakes.";
+    }
+
+    private void OnAddBarButtonClicked()
+    {
+        bool isInputCorrect;
+        isInputCorrect = bufferLength > 0
+            && bufferMaterial > 0
+            && bufferArea > 0;
+        if (isInputCorrect)
+        {
+            clientBarSystem.AddBar(bufferLength, bufferArea, bufferMaterial);
+            temporaryOutput = clientBarSystem.ToString();
+        }
+        else
+            temporaryOutput = "Incorrect input. Please, make sure you have no mistakes.";
+    }
+
+    private void OnRemoveBarButtonClicked()
+    {
+        clientBarSystem.RemoveBar();
+        temporaryOutput = clientBarSystem.ToString();
+    }
+
+    private void OnAddCForceButtonClicked()
+    {
+        if (numberOfNode < clientBarSystem.Size().Item2)
+        {
+            clientBarSystem.AddConcentratedForce(numberOfNode, new Force(true, force, moment));
+            temporaryOutput = clientBarSystem.ToString();
+        }
+        else
+            temporaryOutput = "Incorrect input. Please, make sure you have no mistakes.";
+    }
+
+    private void OnRemoveCForceButtonClicked()
+    {
+        if (numberOfNode < clientBarSystem.Size().Item2)
+        {
+            clientBarSystem.RemoveConcentratedForce(numberOfNode);
+            temporaryOutput = clientBarSystem.ToString();
+        }
+        else
+            temporaryOutput = "Incorrect input. Please, make sure you have no mistakes.";
+    }
+
+    private void OnAddDForceButtonClicked()
+    {
+        if (numberOfBar < clientBarSystem.Size().Item1)
+        {
+            clientBarSystem.AddDistributedForce(numberOfBar, new Force(false, distributed, 0));
+            temporaryOutput = clientBarSystem.ToString();
+        }
+        else
+            temporaryOutput = "Incorrect input. Please, make sure you have no mistakes.";
+    }
+
+    private void OnRemoveDForceButtonClicked()
+    {
+        if (numberOfBar < clientBarSystem.Size().Item1)
+        {
+            clientBarSystem.RemoveDistributedForce(numberOfBar);
+            temporaryOutput = clientBarSystem.ToString();
+        }
+        else
+            temporaryOutput = "Incorrect input. Please, make sure you have no mistakes.";
+    }
+}

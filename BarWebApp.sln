@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarWebApp.Server", "Server\BarWebApp.Server.csproj", "{E1057763-66F7-434C-92DE-50964B055E20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarWebApp.Server", "Server\BarWebApp.Server.csproj", "{E1057763-66F7-434C-92DE-50964B055E20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarWebApp.Client", "Client\BarWebApp.Client.csproj", "{0B513BAC-57E0-4642-AE08-D50658F08B4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarWebApp.Client", "Client\BarWebApp.Client.csproj", "{0B513BAC-57E0-4642-AE08-D50658F08B4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarWebApp.Shared", "Shared\BarWebApp.Shared.csproj", "{6A55A122-C165-41BD-88C0-8F8AD57B4CDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarWebApp.Shared", "Shared\BarWebApp.Shared.csproj", "{6A55A122-C165-41BD-88C0-8F8AD57B4CDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

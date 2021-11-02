@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BarsWebApp.Shared
+namespace BarWebApp.Shared
 {
     public class Bar
     {
-        private Force leftConcentrated;
-        private Force rightConcentrated;
-        private Force distributed;
+        private Force leftConcentrated = new(true);
+        private Force rightConcentrated = new(true);
+        private Force distributed = new(false);
         public decimal Length;
         public decimal Area;
         public decimal Material;
@@ -32,7 +32,7 @@ namespace BarsWebApp.Shared
             }
             set
             {
-                if (value.Type != Force.ForceType.q)
+                if (value.IsConcentrated != true)
                     leftConcentrated = value;
             }
         }
@@ -44,7 +44,7 @@ namespace BarsWebApp.Shared
             }
             set
             {
-                if (value.Type != Force.ForceType.q)
+                if (value.IsConcentrated != true)
                     rightConcentrated = value;
             }
         }
@@ -56,9 +56,13 @@ namespace BarsWebApp.Shared
             }
             set
             {
-                if (value.Type == Force.ForceType.q)
+                if (value.IsConcentrated != false && value.MomentScale == 0)
                     distributed = value;
             }
+        }
+        public override string ToString()
+        {
+            return $"{{{Length}, {Area}, {Material}, {Distributed}}}";
         }
     }
 }
